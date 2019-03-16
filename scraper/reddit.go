@@ -3,6 +3,7 @@ package scraper
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -20,7 +21,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		colly.MaxDepth(2),
 		colly.AllowURLRevisit(),
 		colly.IgnoreRobotsTxt(),
-		colly.Async(true),
+		// colly.Async(true),
 	)
 	extensions.RandomUserAgent(c)
 
@@ -56,8 +57,8 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		c.Visit(nxt)
 	})
 
-	// Enter subreddits here
-	reddits := []string{"https://old.reddit.com/r/funny"}
+	// Enter subreddit as CLI argument eg. `./GoGiffy https:/old.reddit.com/r/gifs`
+	reddits := os.Args[1:]
 
 	for _, reddit := range reddits {
 		c.Visit(reddit)
