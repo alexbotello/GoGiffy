@@ -42,6 +42,79 @@
   revision = "c8489ed3251e7d55ec2b7f18a2bc3a9a7222f0af"
 
 [[projects]]
+  branch = "master"
+  digest = "1:196c05c26e924d031a4dba553b31aff5599577c7f568d74d9056368e8ca5c199"
+  name = "github.com/chromedp/cdproto"
+  packages = [
+    ".",
+    "accessibility",
+    "animation",
+    "applicationcache",
+    "audits",
+    "backgroundservice",
+    "browser",
+    "cachestorage",
+    "cast",
+    "cdp",
+    "css",
+    "database",
+    "debugger",
+    "deviceorientation",
+    "dom",
+    "domdebugger",
+    "domsnapshot",
+    "domstorage",
+    "emulation",
+    "fetch",
+    "headlessexperimental",
+    "heapprofiler",
+    "indexeddb",
+    "input",
+    "inspector",
+    "io",
+    "layertree",
+    "log",
+    "memory",
+    "network",
+    "overlay",
+    "page",
+    "performance",
+    "profiler",
+    "runtime",
+    "security",
+    "serviceworker",
+    "storage",
+    "systeminfo",
+    "target",
+    "testing",
+    "tethering",
+    "tracing",
+  ]
+  pruneopts = "UT"
+  revision = "0f3dd8bc31356d3a52148236ba85e1025d8cd3f3"
+
+[[projects]]
+  digest = "1:cfd47f2036ebcec975bd79962970afd38f0270505285ef0248ce38cb01ad0fe2"
+  name = "github.com/chromedp/chromedp"
+  packages = [
+    ".",
+    "client",
+    "kb",
+    "runner",
+  ]
+  pruneopts = "UT"
+  revision = "4cc98907450234863eb7f74e545bb6def2352720"
+  version = "v0.1.3"
+
+[[projects]]
+  digest = "1:47cebe27e59e4e0c239d0bf2419d6a46f0364a56efc43be702c32b82710b6ecf"
+  name = "github.com/disintegration/imaging"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5362c131d56305ce787e79a5b94ffc956df00d62"
+  version = "v1.6.0"
+
+[[projects]]
   digest = "1:9ae31ce33b4bab257668963e844d98765b44160be4ee98cafc44637a213e530d"
   name = "github.com/gobwas/glob"
   packages = [
@@ -80,12 +153,57 @@
   version = "v1.3.1"
 
 [[projects]]
+  digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
+  version = "v1.4.0"
+
+[[projects]]
   digest = "1:e30ac47ee84d7d354e0a284cf742e3015400667e90aa3d6ae99c7a55da67c645"
   name = "github.com/kennygrant/sanitize"
   packages = ["."]
   pruneopts = "UT"
   revision = "06ec0d0dbcd497d01e5189b16f5263f712e61a8e"
   version = "v1.2.4"
+
+[[projects]]
+  branch = "master"
+  digest = "1:957b15d94d4771a424b6ccb959214fe8caafb7d791d0f588ac572b7cdc894457"
+  name = "github.com/knq/snaker"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2bc8a4db468777180ca38d551094b83073bed25f"
+
+[[projects]]
+  branch = "master"
+  digest = "1:8cb15b21828b36ad568850d0ecb9340e22b148c8c6755f4a3d7918021bfc38a2"
+  name = "github.com/knq/sysutil"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f05b59f0f3075ba1bc5701ef0df4393a05ebd0e7"
+
+[[projects]]
+  branch = "master"
+  digest = "1:b8774f0cf1c719f5253e92f1fc7880b4186046064c3c23ead99ab568028a6510"
+  name = "github.com/mailru/easyjson"
+  packages = [
+    ".",
+    "buffer",
+    "jlexer",
+    "jwriter",
+  ]
+  pruneopts = "UT"
+  revision = "1de009706dbeb9d05f18586f0735fcdb7c524481"
+
+[[projects]]
+  branch = "master"
+  digest = "1:635ac9478e783f09b2945663e359ebf74bc225b37f9845795d1b247285b458a2"
+  name = "github.com/pkg/browser"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "0a3d74bf9ce488f035cf5bc36f753a711bc74334"
 
 [[projects]]
   branch = "master"
@@ -102,6 +220,18 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "97ee4a9ee6ea01ed0bbf0325dd789f74cac6cb94"
+
+[[projects]]
+  branch = "master"
+  digest = "1:acadbbf02e5c744709c60ac929e63258a69a3404ab36ed0c1a245cc28f056220"
+  name = "golang.org/x/image"
+  packages = [
+    "bmp",
+    "tiff",
+    "tiff/lzw",
+  ]
+  pruneopts = "UT"
+  revision = "0694c2d4d067f97ebef574d63a763ee8ab559da7"
 
 [[projects]]
   branch = "master"
@@ -162,8 +292,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/chromedp/cdproto/cdp",
+    "github.com/chromedp/chromedp",
     "github.com/gocolly/colly",
     "github.com/gocolly/colly/extensions",
+    "github.com/pkg/browser",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,15 +1,20 @@
 package scraper
 
 import (
+	"context"
 	"fmt"
 	"strings"
+	"time"
+
+	"github.com/alexbotello/GoGiffy/browse"
+	"github.com/chromedp/chromedp"
 
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
 )
 
 // Scrape crawls and retrieves Gfycat / Imgur links from a list of subreddits
-func Scrape() {
+func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 	c := colly.NewCollector(
 		colly.AllowedDomains("old.reddit.com", "gfycat.com", "i.imgur.com"),
 		colly.MaxDepth(2),
@@ -32,6 +37,8 @@ func Scrape() {
 		} else if isImgur(url) {
 			// open url in browser
 			fmt.Println(url)
+			browse.GoTo(ctxt, chrome, url)
+			time.Sleep(10 * time.Second)
 		}
 	})
 
@@ -39,6 +46,8 @@ func Scrape() {
 	c.OnHTML(".video-player-container", func(e *colly.HTMLElement) {
 		videoSrc := e.ChildAttr("source", "src")
 		fmt.Println(videoSrc)
+		browse.GoTo(ctxt, chrome, videoSrc)
+		time.Sleep(10 * time.Second)
 	})
 
 	// Continue to the next page on Subreddit
@@ -47,17 +56,12 @@ func Scrape() {
 		c.Visit(nxt)
 	})
 
-	// c.OnRequest(func(r *colly.Request) {
-	// 	fmt.Println("Visiting", r.URL.String())
-	// })
-
 	// Enter subreddits here
 	reddits := []string{"https://old.reddit.com/r/funny"}
 
 	for _, reddit := range reddits {
 		c.Visit(reddit)
 	}
-
 	c.Wait()
 }
 

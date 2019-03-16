@@ -1,9 +1,17 @@
 package main
 
 import (
-	"github.com/alexbotello/gogiffy/scraper"
+	"context"
+
+	"github.com/alexbotello/GoGiffy/browse"
+	"github.com/alexbotello/GoGiffy/scraper"
 )
 
 func main() {
-	scraper.Scrape()
+	ctxt, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	c := browse.StartChrome(ctxt)
+	scraper.Scrape(ctxt, c)
+	browse.WaitWithChrome(c)
 }
