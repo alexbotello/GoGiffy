@@ -52,7 +52,7 @@ func Scrape() {
 	// })
 
 	// Enter subreddits here
-	reddits := []string{}
+	reddits := []string{"https://old.reddit.com/r/funny"}
 
 	for _, reddit := range reddits {
 		c.Visit(reddit)
