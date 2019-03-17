@@ -3,7 +3,9 @@ package scraper
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,8 +18,10 @@ import (
 
 // Scrape crawls and retrieves Gfycat / Imgur links from a list of subreddits
 func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
+	duration := getDuration()
+
 	c := colly.NewCollector(
-		colly.AllowedDomains("old.reddit.com", "gfycat.com", "i.imgur.com"),
+		colly.AllowedDomains("old.reddit.com", "gfycat.com", "i.imgur.com", "redd.it"),
 		colly.MaxDepth(2),
 		colly.AllowURLRevisit(),
 		colly.IgnoreRobotsTxt(),
@@ -35,7 +39,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		if isImgur(url) {
 			fmt.Println(url)
 			browse.GoTo(ctxt, chrome, url)
-			time.Sleep(10 * time.Second)
+			time.Sleep(duration * time.Second)
 		}
 		c.Visit(url)
 	})
@@ -45,7 +49,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		videoSrc := e.ChildAttr("source", "src")
 		fmt.Println(videoSrc)
 		browse.GoTo(ctxt, chrome, videoSrc)
-		time.Sleep(10 * time.Second)
+		time.Sleep(duration * time.Second)
 	})
 
 	// Continue to the next page on Subreddit
@@ -54,7 +58,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		c.Visit(next)
 	})
 
-	// Enter subreddit as CLI argument eg. `./GoGiffy r/gifs`
+	// Enter subreddit as CLI argument eg. `./GoGiffy r/gifs 3`
 	reddits := os.Args[1:]
 
 	for _, reddit := range reddits {
@@ -62,6 +66,14 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		c.Visit(prefix + reddit)
 	}
 	c.Wait()
+}
+
+func getDuration() time.Duration {
+	i, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+	return time.Duration(i)
 }
 
 func isImgur(link string) bool {
