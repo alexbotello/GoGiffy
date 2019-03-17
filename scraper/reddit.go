@@ -21,7 +21,6 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 		colly.MaxDepth(2),
 		colly.AllowURLRevisit(),
 		colly.IgnoreRobotsTxt(),
-		// colly.Async(true),
 	)
 	extensions.RandomUserAgent(c)
 
@@ -33,14 +32,12 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 	// Locate gifs/videos on Subreddit
 	c.OnHTML(".top-matter", func(e *colly.HTMLElement) {
 		url := e.ChildAttr("a[data-event-action=title]", "href")
-		if isGfycat(url) {
-			c.Visit(url)
-		} else if isImgur(url) {
-			// open url in browser
+		if isImgur(url) {
 			fmt.Println(url)
 			browse.GoTo(ctxt, chrome, url)
 			time.Sleep(10 * time.Second)
 		}
+		c.Visit(url)
 	})
 
 	// Access GFYcat video source
@@ -53,23 +50,20 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 
 	// Continue to the next page on Subreddit
 	c.OnHTML("span.next-button", func(e *colly.HTMLElement) {
-		nxt := e.ChildAttr("a", "href")
-		c.Visit(nxt)
+		next := e.ChildAttr("a", "href")
+		c.Visit(next)
 	})
 
-	// Enter subreddit as CLI argument eg. `./GoGiffy https:/old.reddit.com/r/gifs`
+	// Enter subreddit as CLI argument eg. `./GoGiffy r/gifs`
 	reddits := os.Args[1:]
 
 	for _, reddit := range reddits {
-		c.Visit(reddit)
+		prefix := "https://old.reddit.com/"
+		c.Visit(prefix + reddit)
 	}
 	c.Wait()
 }
 
-func isGfycat(link string) bool {
-	return strings.Contains(link, "gfycat")
-}
-
 func isImgur(link string) bool {
-	return strings.Contains(link, "imgur")
+	return strings.Contains(link, "i.imgur")
 }
