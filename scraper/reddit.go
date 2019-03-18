@@ -21,7 +21,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 	duration := getDuration()
 
 	c := colly.NewCollector(
-		colly.AllowedDomains("old.reddit.com", "gfycat.com", "i.imgur.com", "redd.it"),
+		colly.AllowedDomains("old.reddit.com", "gfycat.com", "i.imgur.com"),
 		colly.MaxDepth(2),
 		colly.AllowURLRevisit(),
 		colly.IgnoreRobotsTxt(),
@@ -71,7 +71,7 @@ func Scrape(ctxt context.Context, chrome *chromedp.CDP) {
 func getDuration() time.Duration {
 	i, err := strconv.Atoi(os.Args[2])
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Duration must be a whole number")
 	}
 	return time.Duration(i)
 }
