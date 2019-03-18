@@ -1,4 +1,4 @@
-# GoGiffy: Automate viewing of GIFs/Videos for chosen Subreddit
+# GoGiffy: Automate viewing of GIFs/Videos
 
 GoGiffy is small command line tool for lazy reddit surfing.
 It automatically crawls a subreddit and collects all Gfycat/Imgur links and displays them in a headless chrome browser
