@@ -3,7 +3,6 @@ package browse
 import (
 	"context"
 	"log"
-	"os"
 
 	"github.com/chromedp/chromedp"
 )
@@ -14,7 +13,6 @@ func StartChrome(ctxt context.Context) *chromedp.CDP {
 	c, err := chromedp.New(ctxt)
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 	return c
 }
@@ -32,6 +30,5 @@ func WaitWithChrome(c *chromedp.CDP) {
 	err := c.Wait()
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 }
